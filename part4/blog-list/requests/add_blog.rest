@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
-{
- "title": "react docs beta",
- "author": "Rachel Nabors",
- "url": "https://beta.reactjs.org/",
- "likes": "69"
-}
+ {
+    "title": "First class tests",
+    "author": "Robert C. Martin",
+    "url": "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    "likes": "10"
+  }
