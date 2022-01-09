@@ -32,15 +32,30 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
-// const getTokenFrom = async (request, response, next) => {
-//   const authorization = await request.get('authorization')
-//   request.token = authorization
-//   console.log('token', authorization)
-//   next()
-// }
+const tokenExtractor = (request, response, next) => {
+    const authorization = request.get('authorization')
+
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+        request["token"] = authorization.substring(7)
+    }
+    next()
+  }
+
+  const userExtractor = async (request, response, next) => {
+    if(request.token){
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);    
+    request["user"]= await User.findById(decodedToken.id);
+    console.log(request.user); // Works
+    next();
+  } else{
+    response.status(403).json({ error: 'no token received' });
+  }
+  }
 
 module.exports = {
   requestLogger,
   unknownEndpoint,
-  errorHandler
+  errorHandler,
+  tokenExtractor,
+  userExtractor
 }
