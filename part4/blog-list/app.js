@@ -9,7 +9,7 @@ const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 
-mongoose.connect(config.MONGODB_URI)
+mongoose.connect(config.MONGODB_URI,  { useNewUrlParser: true } )
   .then(() => {
     logger.info('connected to MongoDB')
   })
