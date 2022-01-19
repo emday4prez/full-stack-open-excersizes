@@ -9,6 +9,12 @@ const App = () => {
     console.log('vote', id)
   }
 
+  const addVote = (id) => {
+    store.dispatch({
+      type: 'TOGGLE_IMPORTANCE',
+      data: {id}
+    })
+  }
   return (
     <div>
       <h2>Anecdotes</h2>
