@@ -1,3 +1,4 @@
+import { createStore } from 'redux'
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -17,29 +18,48 @@ const asObject = (anecdote) => {
   }
 }
 
-
 const initialState = anecdotesAtStart.map(asObject)
 
-const reducer = (state = initialState, action) => {
+  export const vote = (id) => {
+    console.log('vote', id)
+    return {
+      type: 'VOTE',
+      data: { id }
+    }
+  }
+  export const createAnecdote = (anecdote) => {
+    return {
+      type: 'NEW_POST',
+      data: {
+        content: anecdote,
+        id: getId(),
+        votes: 0
+      }
+    }
+  }
+const anecdoteReducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
-  switch(action.type) {
-    case 'NEW_ANECDOTE':
-      return state.concat(action.data)
-    case 'ADD_VOTE': {
+
+  switch(action.type){
+    case 'NEW_POST':
+    return state.concat(action.data)
+    case 'VOTE': {
       const id = action.data.id 
-      const anecdoteToChange = state.find(n => n.id === id)
-      const changedAnecdote = {
-        ...anecdoteToChange, 
-        votes: anecdoteToChange.votes + 1
+      const toVoteFor = state.find(n => n.id === id)
+      const votedFor = {
+        ...toVoteFor,
+        votes: toVoteFor.votes + 1
       }
       return state.map(post => 
-        post.id !== id ? post : changedAnecdote)
-    }
-    default: 
-      return state;
+        post.id !== id ? post : votedFor 
+        )
   }
-  
+  default:
+    return state
+  }
 }
+export default anecdoteReducer 
 
-export default reducer
+
+
