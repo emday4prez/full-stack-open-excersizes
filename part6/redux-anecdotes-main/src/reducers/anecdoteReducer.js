@@ -60,5 +60,3 @@ const anecdoteReducer = (state = initialState, action) => {
 }
 export default anecdoteReducer 
 
-
-
