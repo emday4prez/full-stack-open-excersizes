@@ -11,7 +11,7 @@ const App = () => {
   const dispatch = useDispatch()
   useEffect(()=> {
       getAll().then(quotes => dispatch(initializeQuotes(quotes)))
-  },[])
+  },[dispatch])
 
   return (
     <div>

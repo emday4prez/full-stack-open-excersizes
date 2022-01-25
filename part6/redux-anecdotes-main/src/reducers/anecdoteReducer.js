@@ -1,3 +1,5 @@
+import { createNew, getAll } from "../services/anecdotes"
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -27,21 +29,25 @@ const initialState = anecdotesAtStart.map(asObject)
     }
   }
   export const createAnecdote = (anecdote) => {
-    return {
+     return async dispatch => {
+    const newQuote = await createNew(anecdote)
+    dispatch({
       type: 'NEW_POST',
-      data: {
-        content: anecdote,
-        id: getId(),
-        votes: 0
-      }
-    }
+      data: newQuote,
+    })
   }
-  export const initializeQuotes = (anecdotes) => {
-  return {
-    type: 'INIT_QUOTES',
-    data: anecdotes,
+  }
+  
+  export const initializeQuotes = () => {
+  return async dispatch => {
+    const anecdotes = await getAll()
+    dispatch({
+      type: 'INIT_ANECDOTES',
+      data: anecdotes,
+    })
   }
 }
+
 const anecdoteReducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
